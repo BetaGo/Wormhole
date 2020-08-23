@@ -1,5 +1,5 @@
 import {
-  Divider,
+  Divider as MUIDivider,
   IconButton,
   InputBase,
   Menu,
@@ -10,6 +10,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import { observer, useLocalStore } from "mobx-react-lite";
 import React from "react";
 import styled from "styled-components";
+import ClearIcon from "@material-ui/icons/Clear";
 
 import IconFont from "../Icon/IconFont";
 
@@ -24,6 +25,11 @@ const Input = styled(InputBase)`
   flex: 1;
 `;
 
+const Divider = styled(MUIDivider)`
+  height: 1em;
+  margin: auto 0.5em;
+`;
+
 const SearchBox = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const inputRef = React.useRef<HTMLInputElement>(null);
@@ -35,6 +41,7 @@ const SearchBox = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!store.searchText) return;
     switch (store.searchEngineName) {
       case "google":
         window.open(
@@ -66,10 +73,9 @@ const SearchBox = () => {
   const handleSelectSearchEngine = (name: string) => () => {
     store.searchEngineName = name;
     handleCloseMenu();
-    console.log(inputRef.current);
     setTimeout(() => {
       inputRef.current?.focus();
-    }, 100);
+    }, 0);
   };
   return (
     <Root component="form" onSubmit={handleSubmit}>
@@ -107,7 +113,20 @@ const SearchBox = () => {
         inputRef={inputRef}
         value={store.searchText}
         onChange={(e) => (store.searchText = e.target.value)}
-        placeholder="Search"
+        placeholder={`Search with ${store.searchEngineName}`}
+        endAdornment={
+          store.searchText && (
+            <IconButton
+              size="small"
+              onClick={() => {
+                store.searchText = "";
+                inputRef.current?.focus();
+              }}
+            >
+              <ClearIcon fontSize="inherit" />
+            </IconButton>
+          )
+        }
       ></Input>
       <IconButton type="submit">
         <SearchIcon />

@@ -1,4 +1,4 @@
-import { observable } from "mobx";
+import { observable, computed } from "mobx";
 
 export class Todo {
   id: string;
@@ -38,7 +38,15 @@ export class TodoList {
 }
 
 export class TodoStore {
+  @observable
+  selectedTodoListIndex: number = 0;
+
+  @observable
   todoLists: TodoList[] = [];
+
+  @computed get selectedTodoList(): TodoList | undefined {
+    return this.todoLists[this.selectedTodoListIndex];
+  }
 
   addList(name: string) {
     this.todoLists.push(new TodoList(name));

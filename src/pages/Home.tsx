@@ -1,6 +1,7 @@
 import React from "react";
 import SearchBox from "../components/SearchBox/SearchBox";
 import styled from "styled-components";
+import Todos from "../components/Todos/Todos";
 
 const Root = styled.div`
   width: 100%;
@@ -10,16 +11,31 @@ const Root = styled.div`
 
 const Content = styled.div`
   width: 100%;
+  margin: auto;
+`;
+
+const SearchContainer = styled.div`
   max-width: 600px;
   margin: auto;
   padding: 0 10px;
+`;
+
+const TodosContainer = styled.div`
+  max-width: 800px;
+  height: 500px;
+  margin: ${(props) => props.theme.spacing(3)}px auto;
 `;
 
 const Home = () => {
   return (
     <Root>
       <Content>
-        <SearchBox />
+        <SearchContainer>
+          <SearchBox />
+        </SearchContainer>
+        <TodosContainer>
+          <Todos />
+        </TodosContainer>
       </Content>
     </Root>
   );

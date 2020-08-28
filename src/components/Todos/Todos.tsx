@@ -1,7 +1,7 @@
-import { Typography, Paper } from "@material-ui/core";
+import { Paper } from "@material-ui/core";
 import React from "react";
-import styled from "styled-components";
 import Split from "react-split";
+import styled from "styled-components";
 
 import TodoList from "./TodoList";
 import TodoListMenu from "./TodoListMenu";

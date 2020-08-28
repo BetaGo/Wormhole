@@ -12,6 +12,7 @@ import AddIcon from "@material-ui/icons/Add";
 import styled from "styled-components";
 import { useStores } from "../../hooks/useStores";
 import { observer } from "mobx-react-lite";
+import EditableText from "../EditableText/EditableText";
 
 const Root = styled.div`
   display: flex;
@@ -40,19 +41,37 @@ const TodoListMenu = () => {
   return (
     <Root>
       <ListRoot>
-        {todoStore.todoLists.map((v, index) => (
-          <ListItem
-            button
-            onClick={(e) => {
-              todoStore.selectedTodoListIndex = index;
-            }}
-          >
-            <ListItemIcon>
-              <ListIcon />
-            </ListItemIcon>
-            <ListItemText primary={v.name} />
-          </ListItem>
-        ))}
+        {todoStore.todoLists.map((v, index) => {
+          const selected = v === todoStore.selectedTodoList;
+          return (
+            <ListItem
+              key={v.id}
+              button
+              selected={selected}
+              onClick={(e) => {
+                todoStore.selectedTodoListIndex = index;
+              }}
+            >
+              <ListItemIcon>
+                <ListIcon />
+              </ListItemIcon>
+              <ListItemText
+                primary={
+                  <EditableText
+                    editing={selected && todoStore.editingSelected}
+                    text={v.name}
+                    onEditEnd={(t) => {
+                      if (todoStore.selectedTodoList) {
+                        todoStore.selectedTodoList.name = t;
+                        todoStore.editingSelected = false;
+                      }
+                    }}
+                  />
+                }
+              />
+            </ListItem>
+          );
+        })}
       </ListRoot>
       <div>
         <Divider />

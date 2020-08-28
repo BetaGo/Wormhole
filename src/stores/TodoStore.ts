@@ -1,7 +1,10 @@
-import { observable, computed } from "mobx";
+import { observable, computed, action } from "mobx";
 
 export class Todo {
   id: string;
+
+  @observable
+  title: string;
 
   @observable
   comment?: string;
@@ -12,7 +15,8 @@ export class Todo {
   @observable
   deadline?: Date;
 
-  constructor(public title: string) {
+  constructor(title: string) {
+    this.title = title;
     this.id = Date.now().toString();
   }
 }
@@ -21,9 +25,13 @@ export class TodoList {
   id: string;
 
   @observable
+  name: string;
+
+  @observable
   todos: Todo[] = [];
 
-  constructor(public name: string) {
+  constructor(name: string) {
+    this.name = name;
     this.id = Date.now().toString();
   }
 
@@ -39,19 +47,28 @@ export class TodoList {
 
 export class TodoStore {
   @observable
-  selectedTodoListIndex: number = 0;
+  selectedTodoListIndex?: number;
+
+  @observable
+  editingSelected: boolean = false;
 
   @observable
   todoLists: TodoList[] = [];
 
   @computed get selectedTodoList(): TodoList | undefined {
+    if (this.selectedTodoListIndex === undefined) return undefined;
     return this.todoLists[this.selectedTodoListIndex];
   }
 
+  @action
   addList(name: string) {
     this.todoLists.push(new TodoList(name));
+    const newListIndex = this.todoLists.length - 1;
+    this.selectedTodoListIndex = newListIndex;
+    this.editingSelected = true;
   }
 
+  @action
   removeList(id: string) {
     this.todoLists = this.todoLists.filter((v) => v.id !== id);
   }

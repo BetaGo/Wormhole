@@ -13,6 +13,7 @@ import SignUp from "./pages/SignUp";
 import Todo from "./pages/Todo";
 import { darkTheme } from "./theme/dark";
 import { lightTheme } from "./theme/light";
+import ThemedRoot from "./components/ThemedRoot";
 
 const themeDict = {
   light: lightTheme,
@@ -28,23 +29,25 @@ function App() {
           <ThemeProvider theme={themeDict[themeMode]}>
             <CssBaseline />
             <Router>
-              <Switch>
-                <Route exact path="/">
-                  <Home />
-                </Route>
-                <Route exact path="/login">
-                  <Login />
-                </Route>
-                <Route exact path="/signup">
-                  <SignUp />
-                </Route>
-                <Route exact path="/todo">
-                  <Todo />
-                </Route>
-                <Route exact path="/news">
-                  <News />
-                </Route>
-              </Switch>
+              <ThemedRoot>
+                <Switch>
+                  <Route exact path="/">
+                    <Home />
+                  </Route>
+                  <Route exact path="/login">
+                    <Login />
+                  </Route>
+                  <Route exact path="/signup">
+                    <SignUp />
+                  </Route>
+                  <Route exact path="/todo">
+                    <Todo />
+                  </Route>
+                  <Route exact path="/news">
+                    <News />
+                  </Route>
+                </Switch>
+              </ThemedRoot>
             </Router>
           </ThemeProvider>
         </MuiThemeProvider>

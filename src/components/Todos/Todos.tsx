@@ -31,6 +31,7 @@ const StyledSplit = styled(Split)`
       transparent 0
     );
     background-size: 10px 100%;
+    margin: 0 -5px;
   }
 `;
 
@@ -44,7 +45,8 @@ const Todos = () => {
         gutterSize={10}
         elementStyle={(dimension, size, gutterSize) => {
           return {
-            "flex-basis": "calc(" + size + "% - " + gutterSize + "px)",
+            // "flex-basis": "calc(" + size + "% - " + gutterSize + "px)",
+            "flex-basis": "calc(" + size + "%)",
           };
         }}
         gutterStyle={(dimension, gutterSize) => {

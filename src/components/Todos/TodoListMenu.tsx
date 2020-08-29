@@ -31,7 +31,7 @@ const FullWidthButton = styled(Button)`
   width: 100%;
 `;
 
-const TodoListMenu = () => {
+const TodoListMenu: React.FC = () => {
   const { todoStore } = useStores();
 
   const handleAdd = () => {
@@ -58,11 +58,14 @@ const TodoListMenu = () => {
               <ListItemText
                 primary={
                   <EditableText
+                    autoSelect
                     editing={selected && todoStore.editingSelected}
                     text={v.name}
                     onEditEnd={(t) => {
                       if (todoStore.selectedTodoList) {
-                        todoStore.selectedTodoList.name = t;
+                        if (t) {
+                          todoStore.selectedTodoList.name = t;
+                        }
                         todoStore.editingSelected = false;
                       }
                     }}
